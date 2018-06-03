@@ -3,11 +3,13 @@
 
 #include <QString>
 #include <QLabel>
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
 
 class MyLabel : public QLabel
 {
 public:
-    MyLabel(int name);
+    MyLabel(int text);
 
     void reSetText(int text);
 };

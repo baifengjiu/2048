@@ -25,13 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        widget.cpp \
     mylabel.cpp \
+    bgwidget.cpp \
     gamewidget.cpp
 
 HEADERS += \
-        widget.h \
     mylabel.h \
+    bgwidget.h \
     gamewidget.h
 
 FORMS += \

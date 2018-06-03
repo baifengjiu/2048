@@ -26,16 +26,36 @@ int log_2(int value)
     }
 }
 
-MyLabel::MyLabel(int name)
+MyLabel::MyLabel(int text)
 {
-    this->setText(QString::number(name));
+    this->setText(QString::number(text));
     this->setAlignment(Qt::Alignment(Qt::AlignCenter));
     this->setFont(QFont("Gadugi", 20, QFont::Bold));
 
-    //初始化样式
-     int index = (name==2) ? 0:1; //计算背景数组索引值
-     QString bgColor = QString("QLabel{background-color:%1;border-radius:5px;color:rgb(119,110,101);}").arg(digitBkg[index]);
-     this->setStyleSheet(bgColor);
+     //初始化样式
+    int index = log_2(text) - 1; //计算背景数组索引值
+    QString fontColor = "color:rgb(255,255,255);";
+    if(index < 8)
+    {
+        fontColor = "color:rgb(119,110,101);";
+    }
+    QString bgColor = QString("QLabel{background-color:%1;border-radius:5px;%2}").arg(digitBkg[index]).arg(fontColor);
+    this->setStyleSheet(bgColor);
+
+     //透明度
+     QGraphicsOpacityEffect *m_pGraphicsOpacityEffect = new QGraphicsOpacityEffect(this);
+     m_pGraphicsOpacityEffect->setOpacity(1);
+     this->setGraphicsEffect(m_pGraphicsOpacityEffect);
+
+     //动画让label慢慢出现
+    QPropertyAnimation *animation = new QPropertyAnimation(m_pGraphicsOpacityEffect,"opacity",this);
+    animation->setEasingCurve(QEasingCurve::Linear);
+    animation->setDuration(400);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+    animation->start(QAbstractAnimation::KeepWhenStopped);
+
+
 }
 
 void MyLabel::reSetText(int text)
