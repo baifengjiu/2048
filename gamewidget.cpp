@@ -237,7 +237,7 @@ bool GameWidget::gameOver()
 
     if(flag)
     {
-        //删除数组，冲头开始
+        //删除数组，从头开始
         releaseRes();
 
         m_score = 0;
@@ -288,6 +288,8 @@ void GameWidget::saveGame()
         //将数据写入文件
         file->write(ba);
         file->close();
+
+
     }
 }
 
@@ -467,6 +469,7 @@ bool GameWidget::moveDown()
                 //j:记录当前元素是否合并过的行
     for(int col = 0;col <4;++col)
     {
+        j = -1;
         for(int row = 3;row > -1;--row)
          {
             //找到的第一个不为null的label
@@ -638,6 +641,7 @@ bool GameWidget::moveRight()
                 //j:记录当前元素是否合并过的行
     for(int row = 0;row < 4;++row)
      {
+        j=-1;
         for(int col = 3; col > -1;--col)
         {
             //找到的第一个不为null的label
