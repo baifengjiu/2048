@@ -415,4 +415,7 @@ border-radius:5px;</string>
   <include location="res.qrc"/>
  </resources>
  <connections/>
+ <slots>
+  <slot>reStartGame()</slot>
+ </slots>
 </ui>

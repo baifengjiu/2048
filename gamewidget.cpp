@@ -70,6 +70,7 @@ void GameWidget::createLabel()
     }
 
     ++m_labelCount;
+    qDebug()<<m_labelCount;
 }
 
 void GameWidget::initGame()
@@ -136,6 +137,7 @@ void GameWidget::initGame()
                     labels[i][j]->show();
 
                     ++m_labelCount;
+                    qDebug()<<m_labelCount;
                 }
             }
         }
@@ -180,6 +182,7 @@ bool GameWidget::merge(MyLabel *temp, int row, int col)
             emit ScoreChange();
 
             --m_labelCount;
+            qDebug()<<m_labelCount;
 
             return true;
         }
@@ -193,7 +196,7 @@ bool GameWidget::isMerge()
     {
         for(int col = 0;col <4;++col)
         {
-              if(isMergeUp(row,col) || isMergeDown(row,col) || isMergeLeft(row,col) || isMergeRight(row,col))
+              if(isMergeDown(row,col) || isMergeRight(row,col))
               {
                 return true;
               }
@@ -206,13 +209,15 @@ bool GameWidget::isMerge()
 bool GameWidget::gameOver()
 {    
     bool flag = false;
-
     //如果格子全满（m_labelCount == 16）
-    if(m_labelCount == 16 && !isMerge())
+    if(m_labelCount == 16)
     {
-        //广度，没有可以合并的标签，显示失败
-        QMessageBox::about(this, "信息", "失败!");
-        flag = true;
+        bool isWin = isMerge();
+        if(!isWin){
+            //没有可以合并的标签，显示失败
+            QMessageBox::about(this, "信息", "失败!");
+            flag = true;
+        }
     }
     else
     {
@@ -239,6 +244,7 @@ bool GameWidget::gameOver()
     {
         //删除数组，从头开始
         releaseRes();
+        m_labelCount = 0;
 
         m_score = 0;
         emit ScoreChange();
@@ -258,9 +264,6 @@ void GameWidget::saveGame()
     {
         QJsonDocument d;
         QJsonObject json = d.object();
-        //分数
-        json.insert("m_highScore",m_highScore);
-        json.insert("m_score",m_score);
 
         //进度
         QJsonArray arr;
@@ -282,14 +285,15 @@ void GameWidget::saveGame()
         }
 
         json.insert("labels",arr);
+        //分数
+        json.insert("m_highScore",m_highScore);
+        json.insert("m_score",m_score);
         d.setObject(json);
         QByteArray ba = d.toJson(QJsonDocument::Indented);
 
         //将数据写入文件
         file->write(ba);
         file->close();
-
-
     }
 }
 
@@ -364,13 +368,13 @@ void GameWidget::moveLabel(GestureDirect direction)
         break;
     }
 
-    bool isGameOver = gameOver();
-
     //能移动才创建，不能移动不创建新的标签
-    //游戏结束也不创建
-    if(isMove && !isGameOver){
+    if(isMove){
         createLabel();
     }
+
+    //游戏结束
+    gameOver();
 }
 
 bool GameWidget::moveUp()
@@ -403,6 +407,7 @@ bool GameWidget::moveUp()
                             --row;
                             j = row;
                             --m_labelCount;
+                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -493,6 +498,7 @@ bool GameWidget::moveDown()
                             ++row;
                             j = row;
                             --m_labelCount;
+                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -578,6 +584,7 @@ bool GameWidget::moveLeft()
                             --col;
                             j = col;
                             --m_labelCount;
+                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -665,6 +672,7 @@ bool GameWidget::moveRight()
                             ++col;
                             j = col;
                             --m_labelCount;
+                            qDebug()<<m_labelCount;
                         }
                         else
                         {

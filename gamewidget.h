@@ -57,7 +57,11 @@ public:
     void keyPressEvent(QKeyEvent *event);
 
 public slots:
+    //设置分数
     void setScore();
+    //重新开始
+    //void reStartGame();
+    //移动
     void moveLabel(GestureDirect direction);
 
 private:
