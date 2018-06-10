@@ -1,13 +1,16 @@
 #include "GameWidget.h"
 #include "ui_widget.h"
 
-#include <QDebug>
-
 //生成的值
 int CREATE_NUMBER[2] = {
     2,
     4
 };
+
+const int colWidth = 75;      //列宽
+const int rowHeight = 75;     //行高
+const int xOffset = 10;       //偏移距离
+const int yOffset = 10;
 
 GameWidget::GameWidget(QWidget *parent) :
     QWidget(parent),
@@ -24,6 +27,7 @@ GameWidget::GameWidget(QWidget *parent) :
     m_bgWidget = new BGWidget(this);
     m_bgWidget->setGeometry(19,200,310,310);
 
+    this->m_labelCount = 0;           //标签的数量
     //初始化游戏
     initGame();
 
@@ -58,8 +62,8 @@ void GameWidget::createLabel()
         }
         //背景方框
         MyLabel *label=new MyLabel(CREATE_NUMBER[index]);
-        int x = col * m_colWidth + m_xOffset;
-        int y = row * m_rowHeight +m_yOffset;
+        int x = col * colWidth + xOffset;
+        int y = row * rowHeight +yOffset;
         label->setGeometry(x,y,66,66);
         label->setParent(m_bgWidget);
 
@@ -70,7 +74,6 @@ void GameWidget::createLabel()
     }
 
     ++m_labelCount;
-    qDebug()<<m_labelCount;
 }
 
 void GameWidget::initGame()
@@ -128,8 +131,8 @@ void GameWidget::initGame()
                 if(oldValue != 0)
                 {
                     MyLabel *label=new MyLabel(oldValue);
-                    int x = j * m_colWidth + m_xOffset;
-                    int y = i * m_rowHeight +m_yOffset;
+                    int x = j * colWidth + xOffset;
+                    int y = i * rowHeight +yOffset;
                     label->setGeometry(x,y,66,66);
                     label->setParent(m_bgWidget);
 
@@ -137,7 +140,6 @@ void GameWidget::initGame()
                     labels[i][j]->show();
 
                     ++m_labelCount;
-                    qDebug()<<m_labelCount;
                 }
             }
         }
@@ -165,7 +167,7 @@ bool GameWidget::merge(MyLabel *temp, int row, int col)
         if(temp->text() == labels[row][col]->text())
         {
             int x = labels[row][col]->x();
-            int y = row * m_rowHeight + m_yOffset;//y轴偏移
+            int y = row * rowHeight + yOffset;//y轴偏移
 
             //动画效果
             QPropertyAnimation *animation = new QPropertyAnimation(temp,"geometry");
@@ -182,7 +184,6 @@ bool GameWidget::merge(MyLabel *temp, int row, int col)
             emit ScoreChange();
 
             --m_labelCount;
-            qDebug()<<m_labelCount;
 
             return true;
         }
@@ -350,7 +351,7 @@ void GameWidget::keyPressEvent(QKeyEvent *event)
 
 void GameWidget::moveLabel(GestureDirect direction)
 {
-    bool isMove;
+    bool isMove = false;
     switch (direction) {
     case LEFT:
         isMove = moveLeft();
@@ -368,13 +369,19 @@ void GameWidget::moveLabel(GestureDirect direction)
         break;
     }
 
-    //能移动才创建，不能移动不创建新的标签
-    if(isMove){
+    //游戏胜利结束
+    bool isOver = gameOver();
+
+    //能移动才创建，不能移动并且游戏结束不创建新的标签
+    if(isMove && !isOver){
         createLabel();
     }
 
-    //游戏结束
-    gameOver();
+    //游戏失败结束
+    if(!isOver)
+    {
+        gameOver();
+    }
 }
 
 bool GameWidget::moveUp()
@@ -407,7 +414,6 @@ bool GameWidget::moveUp()
                             --row;
                             j = row;
                             --m_labelCount;
-                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -416,7 +422,7 @@ bool GameWidget::moveUp()
                         }
 
                         int x = temp->x();
-                        int y = row * m_rowHeight + m_yOffset;//y轴偏移
+                        int y = row * rowHeight + yOffset;//y轴偏移
 
                         //动画让label往上升
                         QPropertyAnimation *animation = new QPropertyAnimation(temp,"geometry");
@@ -498,7 +504,6 @@ bool GameWidget::moveDown()
                             ++row;
                             j = row;
                             --m_labelCount;
-                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -507,7 +512,7 @@ bool GameWidget::moveDown()
                        }
 
                         int x= temp->x();
-                        int y = row * m_rowHeight + m_yOffset;
+                        int y = row * rowHeight + yOffset;
                         //动画让label往下降
                         QPropertyAnimation *animation = new QPropertyAnimation(temp,"geometry");
                         //开始值和结束值
@@ -584,7 +589,6 @@ bool GameWidget::moveLeft()
                             --col;
                             j = col;
                             --m_labelCount;
-                            qDebug()<<m_labelCount;
                         }else
                         {
                             //交换两个元素
@@ -592,7 +596,7 @@ bool GameWidget::moveLeft()
                             j = -1; //将j重置为 -1;
                         }
 
-                        int x = col * m_colWidth + m_xOffset;
+                        int x = col * colWidth + xOffset;
                         int y = temp->y();
 
                         //动画让label往左
@@ -672,7 +676,6 @@ bool GameWidget::moveRight()
                             ++col;
                             j = col;
                             --m_labelCount;
-                            qDebug()<<m_labelCount;
                         }
                         else
                         {
@@ -681,7 +684,7 @@ bool GameWidget::moveRight()
                             j = -1;
                         }
 
-                        int x = col * m_colWidth + m_xOffset;
+                        int x = col * colWidth + xOffset;
                         int y = temp->y();
 
                         //动画让label往右

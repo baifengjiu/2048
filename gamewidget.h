@@ -83,15 +83,11 @@ signals:
 
 private:
     Ui::Widget *ui;
-    int m_score = 0;                    //当前得分
-    int m_highScore = 0;                //历史最高得分
-    int m_labelCount = 0;           //标签的数量
-    const int m_colWidth = 75;      //列宽
-    const int m_rowHeight = 75;     //行高
-    const int m_xOffset = 10;       //偏移距离
-    const int m_yOffset = 10;
+    int m_score;                    //当前得分
+    int m_highScore;                //历史最高得分
+    int m_labelCount;               //标签的数量
     MyLabel *labels[4][4];          //标签
-    BGWidget * m_bgWidget;      //主游戏窗口
+    BGWidget * m_bgWidget;          //主游戏窗口
 };
 
 #endif // GAMEWIDGET_H
