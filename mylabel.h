@@ -1,10 +1,7 @@
 #ifndef MYLABEL_H
 #define MYLABEL_H
 
-#include <QString>
 #include <QLabel>
-#include <QPropertyAnimation>
-#include <QGraphicsOpacityEffect>
 
 class MyLabel : public QLabel
 {

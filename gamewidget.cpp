@@ -1,5 +1,16 @@
 #include "GameWidget.h"
 #include "ui_widget.h"
+#include <QLabel>
+#include <time.h>
+#include <QKeyEvent>
+#include <QMessageBox>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
+#include <QCloseEvent>
+#include <QPropertyAnimation>
+#include <QFileDialog>
 
 //生成的值
 int CREATE_NUMBER[2] = {

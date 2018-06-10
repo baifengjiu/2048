@@ -2,17 +2,6 @@
 #define GAMEWIDGET_H
 
 #include <QWidget>
-#include <QLabel>
-#include <time.h>
-#include <QKeyEvent>
-#include <QMessageBox>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QFile>
-#include <QCloseEvent>
-#include <QPropertyAnimation>
-#include <QFileDialog>
 
 #include "mylabel.h"
 #include "bgwidget.h"
@@ -20,7 +9,6 @@
 namespace Ui {
 class Widget;
 }
-
 
 class GameWidget : public QWidget
 {

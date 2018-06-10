@@ -2,9 +2,6 @@
 #define BGWIDGET_H
 
 #include <QWidget>
-#include <QStylePainter>
-#include <QStyleOption>
-
 
 class BGWidget : public QWidget
 {

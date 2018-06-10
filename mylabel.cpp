@@ -1,5 +1,8 @@
 #include "mylabel.h"
 #include <QDebug>
+#include <QString>
+#include <QPropertyAnimation>
+#include <QGraphicsOpacityEffect>
 
 //每个数字对应的背景颜色
 QString digitBkg[11] = {

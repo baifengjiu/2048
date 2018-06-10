@@ -1,4 +1,6 @@
 #include "bgwidget.h"
+#include <QStylePainter>
+#include <QStyleOption>
 #include <QDebug>
 
 BGWidget::BGWidget(QWidget *parent): QWidget(parent)
