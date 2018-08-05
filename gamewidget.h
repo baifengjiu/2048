@@ -21,8 +21,8 @@ public:
     enum GestureDirect{
         LEFT,   //左
         RIGHT,  //右
-        DOWN,   //上
-        UP      //下
+        UP,     //上
+        DOWN    //下
     };
 
     //随机生成标签
@@ -39,18 +39,10 @@ public:
     void saveGame();
     //释放资源
     void releaseRes();
-
+    //关闭事件
     void closeEvent(QCloseEvent *event);
-
+    //键盘事件
     void keyPressEvent(QKeyEvent *event);
-
-public slots:
-    //设置分数
-    void setScore();
-    //重新开始
-    //void reStartGame();
-    //移动
-    void moveLabel(GestureDirect direction);
 
 private:
     bool moveUp();
@@ -68,6 +60,14 @@ signals:
     void GestureMove(GestureDirect direction);
     //改变分数
     void ScoreChange();
+
+private slots:
+    //设置分数
+    void setScore();
+    //移动
+    void moveLabel(GestureDirect direction);
+    //重新开始
+    void on_bt_restart_clicked();
 
 private:
     Ui::Widget *ui;

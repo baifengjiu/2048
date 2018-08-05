@@ -57,8 +57,6 @@ MyLabel::MyLabel(int text)
     animation->setStartValue(0);
     animation->setEndValue(1);
     animation->start(QAbstractAnimation::KeepWhenStopped);
-
-
 }
 
 void MyLabel::reSetText(int text)

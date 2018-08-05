@@ -44,6 +44,9 @@ GameWidget::GameWidget(QWidget *parent) :
 
     setScore();
 
+    //设置焦点在主游戏窗口上
+    this->m_bgWidget->setFocus();
+
     //移动
     connect(this,&GameWidget::GestureMove,this,&GameWidget::moveLabel);
     //设置分数
@@ -53,9 +56,7 @@ GameWidget::GameWidget(QWidget *parent) :
 GameWidget::~GameWidget()
 {
     delete ui;
-
     releaseRes();
-
     delete m_bgWidget;
 }
 
@@ -394,6 +395,23 @@ void GameWidget::moveLabel(GestureDirect direction)
         gameOver();
     }
 }
+
+void GameWidget::on_bt_restart_clicked()
+{
+    //删除数组，从头开始
+    releaseRes();
+    m_labelCount = 0;
+
+    m_score = 0;
+    emit ScoreChange();
+
+    for(int i=0;i<2;i++){
+       createLabel();
+    }
+
+    this->m_bgWidget->setFocus();
+}
+
 
 bool GameWidget::moveUp()
 {

@@ -10,7 +10,6 @@ public:
     explicit BGWidget(QWidget *parent = 0);
     ~BGWidget();
 
-
 private:
     void paintEvent(QPaintEvent *event);
 };
